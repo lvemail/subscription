@@ -4,13 +4,13 @@ import categories from './categories';
 import globalGroups from './globalGroups';
 
 export default defineGkdSubscription({
-  id: 233,
+  id: 20260518,
   name: 'Subscription',
   version: 0,
   author: 'author',
   checkUpdateUrl: './gkd.version.json5',
-  supportUri: 'https://github.com/gkd-kit/subscription-template',
+  supportUri: 'https://github.com/lvemail/subscription',
   categories,
   globalGroups,
-  apps: await batchImportApps(`${import.meta.dirname}/apps`),
+  apps: await batchImportApps('./src/apps'),
 });
