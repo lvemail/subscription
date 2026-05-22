@@ -8,18 +8,30 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      # 为 actions/checkout 添加强制环境变量
+      - name: Checkout code
+        uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-      - uses: actions/setup-node@v4
+      # 为 actions/setup-node 添加强制环境变量
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
-          node-version: 24
+          node-version: '22'  # 使用 Node.js 22 LTS
 
-      - uses: pnpm/action-setup@v3
+      # 为 pnpm/action-setup 添加强制环境变量
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
-          version: 10
+          version: 10       # 与你本地的 pnpm 版本保持一致
 
+      # 后续步骤无需环境变量
       - run: pnpm install
-
       - run: pnpm run build
 
       - id: version
@@ -42,8 +54,8 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
-          tags: true
+          分支: ${{ github.ref }}
+          标签: true
 
       - name: Create Release
         if: ${{ steps.commit.outcome == 'success' }}
