@@ -8,11 +8,15 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4  # v6 可能不存在，改回稳定版 v4
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v4  # 使用 v4 稳定版
+        with:
+          node-version: 22  # 明确指定 Node.js 22 (LTS)，避免警告
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v2  # 升级到 v2，支持 Node.js 24
+        with:
+          version: 9  # 指定 pnpm 版本，根据你的项目调整
 
       - run: pnpm install
 
@@ -26,8 +30,8 @@ jobs:
       - name: Git commit
         id: commit
         run: |
-          git config --local user.email github-actions[bot]@users.noreply.github.com
-          git config --local user.name github-actions[bot]
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git status
           git add .
           git commit -a -m "chore: v${{steps.version.outputs.version}}"
