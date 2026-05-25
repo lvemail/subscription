@@ -17,11 +17,15 @@ export default defineGkdApp({
           ],
         },
         {
-          matches: '[vid="beizi_interstitial_ad_close_container_rl"][clickable=true]',
-          activityIds: ['com.beizi.ad.v2.activity.BeiZiNewInterstitialActivity'],
+          matches:
+            '[vid="beizi_interstitial_ad_close_container_rl"][clickable=true]',
+          activityIds: [
+            'com.beizi.ad.v2.activity.BeiZiNewInterstitialActivity',
+          ],
         },
         {
-          matches: '[name="android.widget.ImageView"][clickable=true][childCount=0][left>1200][top<600][width>=80][width<=120][height>=80][height<=120]',
+          matches:
+            '[name="android.widget.ImageView"][clickable=true][childCount=0][left>1200][top<600][width>=80][width<=120][height>=80][height<=120]',
           activityIds: [
             'com.octopus.ad.AdActivity',
             'com.baidu.mobads.sdk.api.MobRewardVideoActivity',
@@ -43,11 +47,13 @@ export default defineGkdApp({
           activityIds: ['com.ants360.yicamera.activity.MainActivity'],
         },
         {
-          matches: '[id="com.ants360.yicamera:id/ms_item_pre_render_large_iamge_close"]',
+          matches:
+            '[id="com.ants360.yicamera:id/ms_item_pre_render_large_iamge_close"]',
           activityIds: ['com.ants360.yicamera.activity.SplashYiHomeActivity'],
         },
         {
-          matches: '[id="com.ants360.yicamera:id/ad_container"] > [name="android.widget.ImageView"][clickable=true][width<=80][height<=80]',
+          matches:
+            '[id="com.ants360.yicamera:id/ad_container"] > [name="android.widget.ImageView"][clickable=true][width<=80][height<=80]',
           activityIds: ['com.ants360.yicamera.activity.MainActivity'],
         },
         {
@@ -55,7 +61,8 @@ export default defineGkdApp({
           actionDelay: 1000,
         },
         {
-          matches: '[name="android.widget.ImageView"][clickable=true][childCount=0][width>=80][width<=90][height>=80][height<=90][left>=1350]',
+          matches:
+            '[name="android.widget.ImageView"][clickable=true][childCount=0][width>=80][width<=90][height>=80][height<=90][left>=1350]',
           activityIds: ['com.xiaoyi.yiplayer.ui.PlayerActivity'],
         },
       ],
@@ -78,7 +85,8 @@ export default defineGkdApp({
           activityIds: ['com.xiaoyi.yiplayer.ui.PlayerActivity'],
         },
         {
-          matches: '[id="com.ants360.yicamera:id/btnAntsDialogLeft"][clickable=true]',
+          matches:
+            '[id="com.ants360.yicamera:id/btnAntsDialogLeft"][clickable=true]',
           activityIds: [
             'com.xiaoyi.yiplayer.ui.PlayerActivity',
             'com.ants360.yicamera.activity.MainHomeActivity',
@@ -89,11 +97,13 @@ export default defineGkdApp({
           activityIds: ['com.xiaoyi.yiplayer.ui.PlayerActivity'],
         },
         {
-          matches: '[vid="adContainer"] [name="android.widget.ImageView"][clickable=true][width=38][height=38][left>=1350]',
+          matches:
+            '[vid="adContainer"] [name="android.widget.ImageView"][clickable=true][width=38][height=38][left>=1350]',
           activityIds: ['com.xiaoyi.yiplayer.ui.PlayerActivity'],
         },
         {
-          matches: '[vid="s2s_template_view_media_container"] [name="android.widget.ImageView"][clickable=true][width=60][height=60][left>=600][left<=650]',
+          matches:
+            '[vid="s2s_template_view_media_container"] [name="android.widget.ImageView"][clickable=true][width=60][height=60][left>=600][left<=650]',
           activityIds: ['com.xiaoyi.yiplayer.ui.PlayerActivity'],
           actionDelay: 1000,
         },
