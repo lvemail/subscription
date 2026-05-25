@@ -6,12 +6,13 @@ jobs:
   build_release:
     runs-on: ubuntu-latest
     env:
-      # 这句强制全局启用 Node 24，彻底消除所有警告 ✅
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -19,46 +20,36 @@ jobs:
 
       - uses: pnpm/action-setup@v4
 
-      - run: pnpm install
+      - run: pnpm install --no-frozen-lockfile
 
       - run: pnpm run build
 
       - id: version
         run: |
-          version=$(node --no-warnings -e "
-            import('@gkd-kit/tools').then(m => {
-              console.log(m.stdoutGkdVersion().trim());
-            });
-          ")
+          version=$(node --no-warnings -e "import('@gkd-kit/tools').then(m=>m.stdoutGkdVersion()).then(console.log)")
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Git commit
         id: commit
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "github-actions[bot]@users.nore.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
           git status
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
+          git diff --staged --quiet && echo "✅ No changes to commit" && exit 0
           git commit -m "chore: v${{ steps.version.outputs.version }}"
 
       - name: Git push
-        if: success()
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-          tags: true
 
       - name: Create Release
-        if: success()
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
-          name: Release ${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
           body_path: ./dist/CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
