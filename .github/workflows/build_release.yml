@@ -5,27 +5,24 @@ on: workflow_dispatch
 jobs:
   build_release:
     runs-on: ubuntu-latest
+    env:
+      # 这句强制全局启用 Node 24，彻底消除所有警告 ✅
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      # 1. 移除所有旧的 FORCE_JAVASCRIPT_ACTIONS_TO_NODE24（已废弃）
       - uses: actions/checkout@v4
 
-      # 2. 升级到 Node 24（彻底消除弃用警告）
       - uses: actions/setup-node@v4
         with:
-          node-version: 24  # 关键：从 22 → 24
+          node-version: 24
 
-      # 3. 自动读取项目 packageManager，无需写死版本
       - uses: pnpm/action-setup@v4
 
-      # 4. 安装依赖
       - run: pnpm install
 
-      # 5. 构建
       - run: pnpm run build
 
-      # 6. 读取版本号（修复 ESM 模块导入语法）
       - id: version
         run: |
           version=$(node --no-warnings -e "
@@ -35,7 +32,6 @@ jobs:
           ")
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
-      # 7. Git 提交（增加无文件变更时的优雅处理）
       - name: Git commit
         id: commit
         run: |
@@ -43,28 +39,23 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add .
           git status
-          # 只有文件变更才提交
           if git diff --staged --quiet; then
             echo "No changes to commit"
-            echo "commit_status=no" >> "$GITHUB_OUTPUT"
-          else
-            git commit -m "chore: v${{ steps.version.outputs.version }}"
-            echo "commit_status=yes" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+          git commit -m "chore: v${{ steps.version.outputs.version }}"
 
-      # 8. Git 推送（修复 action 版本）
       - name: Git push
-        if: steps.commit.outputs.commit_status == 'yes'
-        uses: ad-m/github-push-action@master  # 兼容稳定版
+        if: success()
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
           tags: true
 
-      # 9. 创建 Release（修复过时 action + 权限）
       - name: Create Release
-        if: steps.commit.outputs.commit_status == 'yes'
-        uses: softprops/action-gh-release@v2  # 官方推荐替代
+        if: success()
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: Release ${{ steps.version.outputs.version }}
