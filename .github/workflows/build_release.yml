@@ -7,25 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
-      has_changes: ${{ steps.check_changes.outputs.has_changes }}
     steps:
-      - uses: actions/checkout@v4
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        with:
-          node-version: '22'
+      - uses: actions/setup-node@v6
 
-      - uses: pnpm/action-setup@v3
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        with:
-          version: 10
+      - uses: pnpm/action-setup@v4
 
       - run: pnpm install
+
       - run: pnpm run build
 
       - id: version
@@ -33,27 +23,18 @@ jobs:
           version=$(node -e "import('@gkd-kit/tools').then((m) => m.stdoutGkdVersion());")
           echo "version=${version}" >> "$GITHUB_OUTPUT"
 
-      # 检查是否有变更
-      - id: check_changes
-        run: |
-          git status --porcelain
-          if [[ -z $(git status --porcelain) ]]; then
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-            echo "没有需要提交的变更，跳过发布"
-          else
-            echo "has_changes=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Git commit
-        if: ${{ steps.check_changes.outputs.has_changes == 'true' }}
+        id: commit
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email github-actions[bot]@users.noreply.github.com
+          git config --local user.name github-actions[bot]
+          git status
           git add .
           git commit -a -m "chore: v${{steps.version.outputs.version}}"
+        continue-on-error: true
 
       - name: Git push
-        if: ${{ steps.check_changes.outputs.has_changes == 'true' }}
+        if: ${{ steps.commit.outcome == 'success' }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +42,7 @@ jobs:
           tags: true
 
       - name: Create Release
-        if: ${{ steps.check_changes.outputs.has_changes == 'true' }}
+        if: ${{ steps.commit.outcome == 'success' }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
