@@ -139,7 +139,7 @@ export default defineGkdApp({
         },
       ],
     },
-    {
+    /* {
       key: 2,
       name: '功能类-自动授权登录',
       desc: '自动允许使用头像昵称等',
@@ -248,7 +248,7 @@ export default defineGkdApp({
           ],
         },
       ],
-    },
+    }, */
     {
       key: 7,
       name: '功能类-自动选中发送原图',
@@ -282,7 +282,7 @@ export default defineGkdApp({
         },
       ],
     },
-    {
+    /* {
       key: 9,
       name: '功能类-自动查看原图',
       desc: '自动点击底部左侧[查看原图]按钮',
@@ -311,7 +311,7 @@ export default defineGkdApp({
           snapshotUrls: 'https://i.gkd.li/i/25009442',
         },
       ],
-    },
+    }, */
     {
       key: 10,
       name: '开屏广告-微信小程序',
@@ -340,7 +340,7 @@ export default defineGkdApp({
         },
       ],
     },
-    {
+    /* {
       key: 11,
       name: '功能类-网页版文件传输助手扫码自动授权',
       fastQuery: true,
@@ -353,8 +353,8 @@ export default defineGkdApp({
           snapshotUrls: 'https://i.gkd.li/i/12793745',
         },
       ],
-    },
-    {
+    }, */
+    /* {
       key: 17,
       name: '青少年模式',
       fastQuery: true,
@@ -404,7 +404,7 @@ export default defineGkdApp({
           snapshotUrls: 'https://i.gkd.li/i/13631987',
         },
       ],
-    },
+    }, */
     {
       key: 19,
       name: '功能类-订阅号-展开更早的消息',
@@ -423,7 +423,7 @@ export default defineGkdApp({
         },
       ],
     },
-    {
+    /* {
       key: 22,
       name: '功能类-开启青少年模式后的每日验证',
       desc: '点击"验证密码"',
@@ -435,7 +435,7 @@ export default defineGkdApp({
           snapshotUrls: 'https://i.gkd.li/i/14050004',
         },
       ],
-    },
+    }, */
     {
       key: 25,
       name: '局部广告-订阅号消息-推荐文章',
@@ -581,7 +581,7 @@ export default defineGkdApp({
         },
       ],
     },
-    {
+    /* {
       key: 32,
       name: '权限提示-权限申请弹窗',
       desc: '点击取消',
@@ -721,7 +721,7 @@ export default defineGkdApp({
           snapshotUrls: 'https://i.gkd.li/i/16833732',
         },
       ],
-    },
+    }, */
     {
       key: 37,
       name: '全屏广告-小程序弹窗广告',
@@ -747,7 +747,7 @@ export default defineGkdApp({
         },
       ],
     },
-    {
+    /* {
       key: 38,
       name: '功能类-自动语音转文字',
       desc: '点击语音旁边的转文字',
@@ -872,6 +872,6 @@ export default defineGkdApp({
           snapshotUrls: 'https://i.gkd.li/i/24161524',
         },
       ],
-    },
+    }, */
   ],
 });
