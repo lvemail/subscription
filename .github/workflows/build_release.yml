@@ -6,7 +6,9 @@ jobs:
   build_release:
     runs-on: ubuntu-latest
     env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -17,7 +19,6 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - run: pnpm install
-
       - run: pnpm run build
 
       - id: version
@@ -26,12 +27,11 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Git commit
-        id: commit
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
-          git diff --staged --quiet && echo "✅ No changes to commit" && exit 0
+          git diff --staged --quiet && echo "No changes" && exit 0
           git commit -m "chore: v${{ steps.version.outputs.version }}"
 
       - name: Git push
@@ -46,5 +46,3 @@ jobs:
           tag_name: v${{ steps.version.outputs.version }}
           name: Release v${{ steps.version.outputs.version }}
           body_path: ./dist/CHANGELOG.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
