@@ -5,14 +5,16 @@ on: workflow_dispatch
 jobs:
   build_release:
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4.1.1
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
 
-      - uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@v4
 
       - run: pnpm install
 
@@ -39,7 +41,7 @@ jobs:
           branch: ${{ github.ref }}
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2.1.0
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: Release v${{ steps.version.outputs.version }}
