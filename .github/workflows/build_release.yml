@@ -21,8 +21,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        with:
-          version: 10
+        # 删除 with 块，让 Action 自动读取 package.json 中的 packageManager 版本
 
       - run: pnpm install
 
