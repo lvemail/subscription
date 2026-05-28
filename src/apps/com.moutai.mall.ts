@@ -15,7 +15,7 @@ export default defineGkdApp({
       // 移除 actionMaximum，允许无限次点击
       rules: [
         {
-          matches: '[text="立即购买"][clickable=true]',
+          matches: '[text="立即购买"]',
           action: 'click',
         },
       ],
@@ -31,7 +31,7 @@ export default defineGkdApp({
       // 移除 actionMaximum，允许无限次点击
       rules: [
         {
-          matches: '[text="20:09投放"][clickable=true]',
+          matches: '[text="20:09投放"]',
           action: 'click',
         },
       ],
