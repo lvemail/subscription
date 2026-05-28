@@ -10,7 +10,7 @@ export default defineGkdApp({
       desc: '持续点击"立即购买"按钮直到消失',
       activityIds: '.webview.view.WebViewActivity',
       enable: true,
-      matchTime: 300000, // 10秒内持续检测
+      matchTime: 301000, // 10秒内持续检测
       resetMatch: 'activity', // 离开页面后重置
       // 移除 actionMaximum，允许无限次点击
       rules: [
